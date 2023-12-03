@@ -45,6 +45,36 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+todos = [
+    {
+        "done": true,
+        "label": "Sample Todo 1"
+    },
+    {
+        "done": true,
+        "label": "Sample Todo 2"
+    }
+]    
+
+@app.route('/todo', methods=['GET'])
+def get_todo():
+
+    return jsonify(todos), 200    
+
+@app.route('/todo', methods=['POST'])
+def add_todo():
+    request_body = request.json
+    todos.append(request_body)
+
+    return jsonify(todos), 200        
+
+@app.route('/todo/<int:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    request_body = request.json
+    todos.pop(todo_id -1)
+
+    return jsonify(todos), 200            
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
